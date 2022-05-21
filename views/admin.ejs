@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%-include('./inc/head')%>
+</head>
+<body>
+    <%-include('./inc/nav')%>
+    <section>
+        <a href="/admin/add">Yeni Daire Ekle</a>
+        <h1>Dairelerim</h1>
+        <ul>
+            <% contents.forEach(content=>{  %>
+                <li>
+                    <p><%=content.title%></p>
+                    <a class="del" data-doc= "<%=content._id%>">Sil</a>
+                </li>
+            <%})%>
+        </ul>
+    </section>
+    <script>
+        const del = document.querySelector('a.del')
+
+        del.addEventListener('click', (e)=>{
+            const endpoint = `/admin/delete/${del.dataset.doc}`
+
+            fetch(endpoint, {
+                method: 'DELETE'
+            })
+                .then((response)=> response.json())
+                .then((data)=>window.location.href = data.link)
+                .catch((err)=>{
+                    console.log(err) 
+                })
+        })
+    </script> 
+</body>
+</html>

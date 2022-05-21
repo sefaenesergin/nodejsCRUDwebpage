@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%-include('./inc/head')%>
+</head>
+<body>
+    <%-include('./inc/nav')%>
+    <section>
+        <h1>login</h1>
+        <form action="/admin/add" method="post">
+            <input type="text" name="title" placeholder="başlık" required>
+            <input type="text" name="short" placeholder="aciklama" required>
+            <input type="text" name="long" placeholder="icerik" required>
+            <input type="submit" value="Kaydet">
+        </form>
+    </section>
+</body>
+</html> 

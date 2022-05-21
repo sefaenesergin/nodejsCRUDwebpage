@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%-include('./inc/head')%>
+</head>
+<body>
+    <%-include('./inc/nav')%>
+    <section>
+        <h1>Dairelerim</h1>
+        <ul>
+            <% contents.forEach(content=>{  %>
+                <li>
+                    <a href="/content/<%=content._id%>"><%=content.title%></a>
+                    <p><%=content.short%></p>
+                </li>
+            <%})%>
+        </ul>
+    </section>
+</body>
+</html>
