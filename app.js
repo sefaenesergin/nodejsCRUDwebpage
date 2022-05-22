@@ -1,9 +1,11 @@
 const express= require('express')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
-const Content = require('./models/content.model')
 const { request } = require('express')
 const { urlencoded } = require('express')
+const adminRoutes = require('./routes/adminRoutes')
+const contentRoutes = require('./routes/contentRoutes')
+
 const app = express()
 
 const dbURL = 'mongodb+srv://ahmet07:asd123@cluster0.iwdpt.mongodb.net/node-project?retryWrites=true&w=majority' 
@@ -25,73 +27,18 @@ app.use(morgan('tiny'))
 
 
 app.get('/', function(req, res) {
-    Content.find().sort({createdAt: -1})
-    .then((result)=>{
-        res.render('index',{title:'Anasayfa', contents: result} );
-    })
-    .catch((err)=>{console.log(err)})
+    res.redirect('/content')
   }); 
- 
+  
 
+app.use('/admin',adminRoutes)
+app.use('/content',contentRoutes)
 
-app.get('/content/:id', (req,res)=>{
-    const id = req.params.id
-    
-    
-    Content.findById(id)
-    .then((result)=>{
-        res.render('content',{content:result, title: 'detay'} );
-    })
-    .catch((err)=>{
-        res.status(404).render('404',{title:'Hata'})
-    })
-})
-
-
-app.get('/admin',(req,res)=>{
-    Content.find().sort({createdAt: -1})
-    .then((result)=>{
-        res.render('admin',{title:'admin', contents: result} );
-    })
-    .catch((err)=>{console.log(err)})
-})
-
-
-
-
-app.get('/admin/add',(req,res)=>{
-    res.render('add',{title:'Ekleme Sayfasi'})
-})
-
-app.post('/admin/add',(req,res)=>{
-    const daire = new Content(req.body)
-
-    daire.save()
-    .then((result)=>{
-        res.redirect('/admin' );
-    })
-    .catch((err)=>{
-        console.log(err)
-    })
-})
-
-app.delete('/admin/delete/:id',(req,res)=>{
-    const id = req.params.id
-
-    Content.findByIdAndDelete(id)
-        .then((result)=>{
-            res.json({link:'/admin'})
-        })
-        .catch((err)=>{
-            console.log(err)
-        })
-})
 
 app.get('/about',(req,res)=>{
     res.render('about',{title:'Hakkımızda'})
 })
 
- 
 
 app.get('/login',(req,res)=>{
     res.render('login',{title:"Giris"})
@@ -102,5 +49,4 @@ app.get('/login',(req,res)=>{
 app.use((req,res)=>{
     res.status(404).render('404',{title:'Hata'})
 })
-
 

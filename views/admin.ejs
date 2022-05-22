@@ -18,10 +18,12 @@
         </ul>
     </section>
     <script>
-        const del = document.querySelector('a.del')
-
-        del.addEventListener('click', (e)=>{
-            const endpoint = `/admin/delete/${del.dataset.doc}`
+        const del = document.querySelectorAll('a.del')
+        const delLinks = [].slice.call(del)
+        
+        delLinks.forEach((item,i)=>{
+            item.addEventListener('click', (e)=>{
+            const endpoint = `/admin/delete/${item.dataset.doc}`
 
             fetch(endpoint, {
                 method: 'DELETE'
@@ -32,6 +34,8 @@
                     console.log(err) 
                 })
         })
+        })
+
     </script> 
 </body>
 </html>
